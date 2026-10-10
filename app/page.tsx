@@ -1,3 +1,4 @@
+import LogBox from "@/components/LogBox";
 import LogoutButton from "@/components/LogoutButton";
 import TargetsModal from "@/components/TargetsModal";
 
@@ -23,8 +24,8 @@ export default function Home() {
       <div className="flex flex-col gap-6">
         <Panel title="Morning brief" className="h-32" />
         <div className="grid grid-cols-2 gap-6">
-          <Panel title="Log" className="h-56" />
-          <Panel title="Ask your dashboard" className="h-56" />
+          <LogBox />
+          <Panel title="Ask your dashboard" className="min-h-56" />
         </div>
         <div className="grid grid-cols-6 gap-4">
           {cards.map((name) => (
