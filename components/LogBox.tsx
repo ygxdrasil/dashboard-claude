@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState, type FormEvent, type KeyboardEvent } from "react";
 
 type Result =
@@ -10,6 +11,7 @@ type Result =
 // "Log by talking": type your day in plain English, Claude sorts it.
 // If Claude needs more information, a question appears with a reply box.
 export default function LogBox() {
+  const router = useRouter();
   const [text, setText] = useState("");
   const [answer, setAnswer] = useState("");
   // The text being clarified. Earlier questions and answers get folded into it.
@@ -39,6 +41,7 @@ export default function LogBox() {
     if (data.kind === "saved") {
       setText("");
       setPending(null);
+      router.refresh(); // update cards and charts
     } else if (data.kind === "clarification" && data.reason === "missing_info") {
       setPending(sentText);
       setAnswer("");

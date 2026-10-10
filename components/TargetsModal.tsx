@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useRef, useState, type FormEvent } from "react";
 import { TARGET_INFO, TARGET_METRICS } from "@/lib/targets";
 import type { TargetMetric } from "@/lib/types";
@@ -12,6 +13,7 @@ const emptyInputs = () =>
 // "Targets" button for the footer. Opens a small form for the six targets.
 // An empty box means "no target".
 export default function TargetsModal() {
+  const router = useRouter();
   const dialog = useRef<HTMLDialogElement>(null);
   const [inputs, setInputs] = useState<Inputs>(emptyInputs);
   const [status, setStatus] = useState<"idle" | "loading" | "saving">("idle");
@@ -61,6 +63,7 @@ export default function TargetsModal() {
       if (!res.ok) throw new Error(data.error);
       fill(data.targets);
       dialog.current?.close();
+      router.refresh(); // cards and charts use the targets
     } catch (e) {
       setError(e instanceof Error && e.message ? e.message : "Could not save targets.");
     }

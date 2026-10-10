@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx --conditions=react-server --tsconfig tsconfig.json test/log-logic.test.ts"
+    "test": "tsx --conditions=react-server --tsconfig tsconfig.json test/log-logic.test.ts && tsx --conditions=react-server --tsconfig tsconfig.json test/summaries.test.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.133.0",
@@ -16,6 +16,7 @@
     "next": "16.4.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
+    "recharts": "^3.10.1",
     "server-only": "^0.0.1",
     "zod": "^4.6.5"
   },

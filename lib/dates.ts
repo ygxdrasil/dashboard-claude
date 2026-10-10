@@ -33,22 +33,18 @@ export function isValidDate(date: string): boolean {
   return new Date(`${date}T12:00:00Z`).toISOString().slice(0, 10) === date;
 }
 
+// Spelled out by hand so the server and every browser format dates identically.
+const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
 /** "Saturday" for "2026-10-10". */
 export function weekdayName(date: string): string {
-  return new Date(`${date}T12:00:00Z`).toLocaleDateString("en-GB", {
-    weekday: "long",
-    timeZone: "UTC",
-  });
+  return WEEKDAYS[new Date(`${date}T12:00:00Z`).getUTCDay()];
 }
 
 /** "Thu 8 Oct" for "2026-10-08". */
 export function shortDate(date: string): string {
-  return new Date(`${date}T12:00:00Z`).toLocaleDateString("en-GB", {
-    weekday: "short",
-    day: "numeric",
-    month: "short",
-    timeZone: "UTC",
-  });
+  return `${weekdayName(date).slice(0, 3)} ${dayMonth(date)}`;
 }
 
 // Minutes Stockholm is ahead of UTC at a given instant (60 in winter, 120 in summer).
@@ -97,4 +93,27 @@ export function stockholmClock(iso: string): string {
     hour: "2-digit",
     minute: "2-digit",
   });
+}
+
+/** Monday of the week the date is in (weeks start on Monday). */
+export function weekStart(date: string): string {
+  const day = new Date(`${date}T12:00:00Z`).getUTCDay(); // 0 = Sunday
+  return addDays(date, -((day + 6) % 7));
+}
+
+/** Whole days from a to b ("2026-10-01" → "2026-10-10" is 9). */
+export function daysBetween(a: string, b: string): number {
+  return Math.round((Date.parse(`${b}T12:00:00Z`) - Date.parse(`${a}T12:00:00Z`)) / 86_400_000);
+}
+
+/** "today", "yesterday" or "Thu 8 Oct". */
+export function relativeDay(date: string, today: string = stockholmToday()): string {
+  if (date === today) return "today";
+  if (date === addDays(today, -1)) return "yesterday";
+  return shortDate(date);
+}
+
+/** "6 Oct" — used for week labels on charts. */
+export function dayMonth(date: string): string {
+  return `${Number(date.slice(8, 10))} ${MONTHS[Number(date.slice(5, 7)) - 1]}`;
 }

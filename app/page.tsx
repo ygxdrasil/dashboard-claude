@@ -1,10 +1,11 @@
+import { Suspense } from "react";
+import AreaCards, { AreaCardsSkeleton } from "@/components/AreaCards";
+import Charts, { ChartsSkeleton } from "@/components/Charts";
 import LogBox from "@/components/LogBox";
 import LogoutButton from "@/components/LogoutButton";
 import TargetsModal from "@/components/TargetsModal";
 
-// Placeholder boxes in the final layout. Each gets real content in a later milestone.
-const cards = ["Gym", "Sleep", "Savings", "Content", "Work", "Projects"];
-
+// Placeholder boxes for parts that get real content in a later milestone.
 function Panel({ title, className = "" }: { title: string; className?: string }) {
   return (
     <section className={`rounded-xl border border-border bg-surface p-5 ${className}`}>
@@ -27,15 +28,13 @@ export default function Home() {
           <LogBox />
           <Panel title="Ask your dashboard" className="min-h-56" />
         </div>
-        <div className="grid grid-cols-6 gap-4">
-          {cards.map((name) => (
-            <Panel key={name} title={name} className="h-32" />
-          ))}
-        </div>
-        <div className="grid grid-cols-2 gap-6">
-          <Panel title="Charts" className="h-64" />
-          <Panel title="Charts" className="h-64" />
-        </div>
+        {/* Cards and charts read the database on every request; the skeletons show while they load. */}
+        <Suspense fallback={<AreaCardsSkeleton />}>
+          <AreaCards />
+        </Suspense>
+        <Suspense fallback={<ChartsSkeleton />}>
+          <Charts />
+        </Suspense>
       </div>
 
       <footer className="mt-10 flex items-center gap-6 border-t border-border pt-4 text-sm text-muted">

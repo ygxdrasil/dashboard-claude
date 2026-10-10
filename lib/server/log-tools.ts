@@ -1,7 +1,7 @@
 import "server-only";
 import type Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
-import { addDays, isValidDate, stockholmDateOf, stockholmLocalToIso, stockholmToday } from "@/lib/dates";
+import { addDays, isValidDate, stockholmDateOf, stockholmLocalToIso, stockholmToday, weekdayName } from "@/lib/dates";
 import { TARGET_INFO } from "@/lib/targets";
 import { TARGET_METRICS } from "@/lib/types";
 
@@ -238,6 +238,6 @@ export function validateCall(name: string, input: unknown): { ok: true; call: Lo
 /** Used in the prompt so "yesterday" etc. resolve against Stockholm time. */
 export function dateContext(): string {
   const today = stockholmToday();
-  const weekday = new Date(`${today}T12:00:00Z`).toLocaleDateString("en-GB", { weekday: "long", timeZone: "UTC" });
+  const weekday = weekdayName(today);
   return `Today is ${weekday} ${today} (Europe/Stockholm). Yesterday was ${addDays(today, -1)}.`;
 }
