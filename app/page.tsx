@@ -1,4 +1,5 @@
 import LogoutButton from "@/components/LogoutButton";
+import TargetsModal from "@/components/TargetsModal";
 
 // Placeholder boxes in the final layout. Each gets real content in a later milestone.
 const cards = ["Gym", "Sleep", "Savings", "Content", "Work", "Projects"];
@@ -36,8 +37,8 @@ export default function Home() {
         </div>
       </div>
 
-      <footer className="mt-10 border-t border-border pt-4 text-sm text-muted">
-        Milestone 1: login works. Everything else is coming.
+      <footer className="mt-10 flex items-center gap-6 border-t border-border pt-4 text-sm text-muted">
+        <TargetsModal />
       </footer>
     </main>
   );

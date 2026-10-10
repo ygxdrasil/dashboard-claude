@@ -11,7 +11,7 @@ Personal dashboard. One user, desktop only. See `SPEC.md` for the full plan.
 ## Status
 
 - [x] Milestone 1: scaffold, login, logout, route protection
-- [ ] Milestone 2: database connection, targets
+- [x] Milestone 2: database connection, targets
 - [ ] Milestone 3: log by talking
 - [ ] Milestone 4: cards and charts
 - [ ] Milestone 5: ask your dashboard
